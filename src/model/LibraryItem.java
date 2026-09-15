@@ -1,3 +1,5 @@
+package model;
+
 public abstract class LibraryItem {
     private int stableId;
     private String title;
