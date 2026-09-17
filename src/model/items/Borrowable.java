@@ -1,7 +1,8 @@
 package model.items;
 
 public interface Borrowable {
-    public void returned();
+    public void returnItem();
     public boolean isAvailable();
     public void borrow();
-}
+
+    }
