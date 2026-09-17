@@ -1,5 +1,5 @@
 package ordering;
-import model.LibraryItem;
+import model.items.LibraryItem;
 
 
 import java.util.Comparator;
