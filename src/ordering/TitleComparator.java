@@ -4,7 +4,7 @@ import model.LibraryItem;
 
 import java.util.Comparator;
 
-public class titleComparator implements Comparator<LibraryItem> {
+public class TitleComparator implements Comparator<LibraryItem> {
     @Override
     public int compare(LibraryItem firstItem, LibraryItem secondItem) {
         int result = firstItem.getTitle().compareTo(secondItem.getTitle());
