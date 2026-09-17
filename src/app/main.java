@@ -32,6 +32,7 @@ public class main{
                 "       1 - Login\n" +
                 "       2 - Register\n\n");
 
+
         switch (readInputOption(1, 2)) {
             case 1: login(); break;
             case 2: register(); break;
@@ -94,6 +95,7 @@ public class main{
 
 
     public static void main(String[] args){
+
         welcome();
     }
 

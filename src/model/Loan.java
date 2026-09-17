@@ -1,5 +1,7 @@
 package model;
 
+import model.items.LibraryItem;
+
 import java.time.LocalDate;
 
 public class Loan implements Comparable<Loan> {

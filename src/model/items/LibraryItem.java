@@ -1,6 +1,4 @@
-package model;
-
-import java.util.Comparator;
+package model.items;
 
 public abstract class LibraryItem implements Comparable<LibraryItem> {
     private int stableId;
