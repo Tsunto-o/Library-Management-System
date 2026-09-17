@@ -7,7 +7,9 @@ public class main{
                 "\n" +
                 "Choose an option :\n" +
                 " 1 - Login\n" +
-                " 2 - Register\n");
+                " 2 - Register\n" +
+                " 3 - Logout\n" +
+                " 4 - Exit");
     }
 
     public static int readInputOption(int min, int max){
@@ -28,7 +30,7 @@ public class main{
 
         welcome();
 
-        int option = readInputOption(1, 2);
+        int option = readInputOption(1, 4);
         System.out.print(option);
 
 
