@@ -5,12 +5,14 @@ public abstract class LibraryItem implements Comparable<LibraryItem> {
     private String title;
     private String publicationData;
     private String status;
+    private int nombreDePages;
 
-    public LibraryItem(int stableId, String title, String publicationData, String status) {
+    public LibraryItem(int stableId, String title, String publicationData, String status, int nombreDePages) {
         this.stableId = stableId;
         this.title = title;
         this.publicationData = publicationData;
         this.status = status;
+        this.nombreDePages=nombreDePages;
     }
 
     public String getTitle() {
@@ -25,11 +27,17 @@ public abstract class LibraryItem implements Comparable<LibraryItem> {
     public String getStatus() {
         return status;
     }
+    public int getNombreDePages() {
+        return nombreDePages;
+    }
     public abstract String getDisplayInfo();
 
     @Override
     public int compareTo(LibraryItem second) {
         return Integer.compare(this.stableId,second.stableId);
+    }
+    public void setStatus(String status) {
+        this.status= status;
     }
 
 }

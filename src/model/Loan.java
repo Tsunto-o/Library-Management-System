@@ -21,7 +21,7 @@ public class Loan implements Comparable<Loan> {
         this.item=item;
         this.loanDate=loanDate;
         this.returnDate=returnDate;
-        this.returned=returned;
+        this.returned=false;
 
     }
 
