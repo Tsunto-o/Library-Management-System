@@ -60,7 +60,7 @@ public class Book extends LibraryItem implements Borrowable {
             this.setStatus("AVAILABLE");
             System.out.println("The book has been returned. Thank You!");
         } else {
-            throw new LibraryException("You can't borrow a book not borrowed!");
+            throw new LibraryException("You can't return a book not borrowed!");
         }
     }
 

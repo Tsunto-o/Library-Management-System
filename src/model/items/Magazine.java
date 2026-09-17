@@ -18,7 +18,11 @@ public class Magazine extends LibraryItem implements Borrowable {
     public void returnItem() {
         if (getStatus().equals("BORROWED")) {
             setStatus("AVAILABLE");
-            System
+            System.out.println("The magazine has been returned. Thank You!");
+
+        }
+        else {
+            throw new LibraryException("You can't return a book not borrowed!");
         }
 
     }
