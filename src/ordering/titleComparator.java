@@ -9,7 +9,7 @@ public class titleComparator implements Comparator<LibraryItem> {
     public int compare(LibraryItem firstItem, LibraryItem secondItem) {
         int result = firstItem.getTitle().compareTo(secondItem.getTitle());
         if (result == 0) {
-            return Integer.compare(firstItem.getStableId(),secondItem.getStableId());
+            return firstItem.compareTo(secondItem);
         }
         return result;
 

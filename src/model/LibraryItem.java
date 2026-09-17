@@ -2,11 +2,18 @@ package model;
 
 import java.util.Comparator;
 
-public abstract class LibraryItem implements Comparator<LibraryItem> {
+public abstract class LibraryItem implements Comparable<LibraryItem> {
     private int stableId;
     private String title;
     private String publicationData;
     private String status;
+
+    public LibraryItem(int stableId, String title, String publicationData, String status) {
+        this.stableId = stableId;
+        this.title = title;
+        this.publicationData = publicationData;
+        this.status = status;
+    }
 
     public String getTitle() {
         return title;
@@ -21,5 +28,10 @@ public abstract class LibraryItem implements Comparator<LibraryItem> {
         return status;
     }
     public abstract String getDisplayInfo();
+
+    @Override
+    public int compareTo(LibraryItem second) {
+        return Integer.compare(this.stableId,second.stableId);
+    }
 
 }
