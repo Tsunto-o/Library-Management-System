@@ -1,3 +1,7 @@
+package app;
+
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -31,7 +35,6 @@ public class main{
                 "   Choose an option :\n" +
                 "       1 - Login\n" +
                 "       2 - Register\n\n");
-
 
         switch (readInputOption(1, 2)) {
             case 1: login(); break;
@@ -74,7 +77,96 @@ public class main{
             }
             break;
         }
+
+        System.out.print("      Last name: ");
+        String lastName = scanner.nextLine();
+        while (true){
+            if (lastName.isBlank()){
+                System.out.print("      Last name can't be blank.\n" +
+                        "      Last name: ");
+                lastName = scanner.nextLine();
+                continue;
+            }
+            else if (lastName.matches(".*[0-9].*")){ ///.=any cara| *=any count
+                System.out.print("      Last name can't contain numbers.\n" +
+                        "      Last name: ");
+                lastName = scanner.nextLine();
+                continue;
+            }
+            else if (!lastName.matches("[a-zA-ZÀ-ÿ\\-]+")){ ///.=any cara| *=any count | \\- = -
+                System.out.print("      Last name can't contain special caracters.\n" +
+                        "      Last name: ");
+                lastName = scanner.nextLine();
+                continue;
+            }
+            break;
+        }
+
+        System.out.print("      Birth date (YYYY-MM-DD): ");
+        LocalDate birthDate;
+        while (true){
+            try {
+                birthDate = LocalDate.parse(scanner.nextLine());
+                if (birthDate.isAfter(LocalDate.now())){
+                    throw new DateTimeException("Illegal date.");
+                }
+                break;
+            } catch (DateTimeException e) {
+                System.out.print("      Invalid date.\n" +
+                        "      Birth date (YYYY-MM-DD): ");
+            }
+
+        }
+
+        System.out.print("      ID (username): ");
+        String stableId = scanner.nextLine();
+        while (true){
+            if (stableId.isBlank()){
+                System.out.print("      ID can't be blank.\n" +
+                        "      ID (username): ");
+                stableId = scanner.nextLine();
+                continue;
+            }
+            else if (stableId.contains(" ")){
+                System.out.print("      Last name can't contain spaces.\n" +
+                        "      ID (username): ");
+                stableId = scanner.nextLine();
+                continue;
+            }
+            break;
+        }
+
+
+        System.out.print("      Password: ");
+        String password = scanner.nextLine();
+        while (true){
+            if (password.isBlank()){
+                System.out.print("      Password can't be blank.\n" +
+                        "      Password: ");
+                password = scanner.nextLine();
+                continue;
+            }
+            break;
+        }
+
+
+
     }
+
+    ///concurrence
+    /// identifiable.java
+    /// item status.java
+    /// items, loan, users.txt (log)
+    /// display catalogue
+    /// brrow, return item
+    /// update user
+    /// show audited actions
+    /// reserve items
+    /// generate reports
+    /// search and filters
+    /// run scripted demonstration
+    /// many filters, serach options
+    ///
 
     public static int readInputOption(int min, int max){
         Scanner scanner = new Scanner(System.in);
@@ -95,7 +187,6 @@ public class main{
 
 
     public static void main(String[] args){
-
         welcome();
     }
 
