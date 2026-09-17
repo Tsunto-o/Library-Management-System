@@ -1,11 +1,11 @@
-package model;
+package model.people;
 
 import java.time.LocalDate;
 
 public class Member extends User {
     private int activeLoanLimit;
 
-    public Member(int stableId, String firstName, String lastName, LocalDate birthdayDate,int activeLoanLimit) {
+    public Member(String stableId, String firstName, String lastName, LocalDate birthdayDate,int activeLoanLimit) {
         super(stableId, firstName, lastName, birthdayDate, "MEMBER");
         this.activeLoanLimit=activeLoanLimit;
     }

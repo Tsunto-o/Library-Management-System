@@ -1,6 +1,7 @@
 package model;
 
 import model.items.LibraryItem;
+import model.people.User;
 
 import java.time.LocalDate;
 

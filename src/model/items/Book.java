@@ -1,18 +1,15 @@
 package model.items;
 
-import model.Borrowable;
-
 
 public class Book extends LibraryItem implements Borrowable {
     private String author;
     private String isbn;
     private String genre;
 
-    public Book(int stableId, String title, String publicationData, String status, String author, String isbn, String genre,int nombreDePages) {
-        super(stableId, title, publicationData, status,nombreDePages);
+    public Book(int stableId, String title, String publicationData, String status, String author, String isbn, String genre,int pages) {
+        super(stableId, title, publicationData, status,pages);
         this.author = author;
         this.isbn = isbn;
-
         this.genre = genre;
     }
     public String getAuthor() {
@@ -34,6 +31,12 @@ public class Book extends LibraryItem implements Borrowable {
 
 
     }
+
+    @Override
+    public void returned() {
+
+    }
+
     @Override
     public boolean isAvailable() {
         if (getStatus().equals("AVAILABLE")) {

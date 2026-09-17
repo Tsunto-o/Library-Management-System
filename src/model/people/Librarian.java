@@ -1,9 +1,9 @@
-package model;
+package model.people;
 
 import java.time.LocalDate;
 
 public class Librarian extends User {
-    public Librarian(int stableId, String firstName, String lastName, LocalDate birthdayDate) {
+    public Librarian(String stableId, String firstName, String lastName, LocalDate birthdayDate) {
         super(stableId, firstName, lastName, birthdayDate, "LIBRARIAN");
 
     }

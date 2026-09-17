@@ -2,6 +2,7 @@ package model;
 
 
 import model.items.LibraryItem;
+import model.people.Member;
 
 
 public class Reservation implements Comparable<Reservation>{
