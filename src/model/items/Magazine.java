@@ -1,5 +1,7 @@
 package model.items;
 
+import exception.LibraryException;
+
 public class Magazine extends LibraryItem implements Borrowable {
     public Magazine(int stableId, String title, String publicationData, String status, int pages) {
         super(stableId, title, publicationData, status, pages);
@@ -13,17 +15,29 @@ public class Magazine extends LibraryItem implements Borrowable {
     }
 
     @Override
-    public void returned() {
+    public void returnItem() {
+        if (getStatus().equals("BORROWED")) {
+            setStatus("AVAILABLE");
+            System
+        }
 
     }
 
     @Override
     public boolean isAvailable() {
+        if (getStatus().equals("AVAILABLE")) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public void borrow() {
+        if (this.isAvailable()) {
+            this.setStatus("BORROWED");
+        } else {
+            throw new LibraryException("This magazine is currently borrowed and unavailable");
+        }
 
     }
 }
