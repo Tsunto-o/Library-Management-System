@@ -40,4 +40,5 @@ public abstract class LibraryItem implements Comparable<LibraryItem> {
         this.status= status;
     }
 
+    public abstract void returned();
 }

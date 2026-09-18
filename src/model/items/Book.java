@@ -36,6 +36,11 @@ public class Book extends LibraryItem implements Borrowable {
 
     }
 
+    @Override
+    public void returned() {
+
+    }
+
 
     @Override
     public boolean isAvailable() {

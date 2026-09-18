@@ -1,5 +1,7 @@
 package app;
 
+import model.items.itemMemory.itemList;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -187,7 +189,13 @@ public class main {
 
 
     public static void main(String[] args) {
-        welcome();
+        ///welcome();
+        itemList listI = new itemList();
+        try {
+            listI.load("src/model/items/itemMemory/items.csv");
+        } catch (Exception e){
+            System.out.print("fail");
+        };
 
 
 
