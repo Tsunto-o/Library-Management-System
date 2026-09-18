@@ -21,10 +21,9 @@ public class itemList {
         Scanner scanner = new Scanner(csvFile);
         System.out.print("test");
 
-        scanner.useDelimiter(",");
-
         while (scanner.hasNextLine()){
-            System.out.print(scanner.nextLine());
+            Scanner lineScanner = new Scanner(scanner.nextLine());
+            lineScanner.useDelimiter(",");
         }
 
     }
