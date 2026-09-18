@@ -4,7 +4,7 @@ import exception.LibraryException;
 
 public class Magazine extends LibraryItem {
     public Magazine(int stableId, String title, String publicationData, String status, int pages) {
-        super(stableId, title, publicationData, status, pages);
+        super(stableId, title, publicationData, status, pages,"MAGAZINE");
     }
     @Override
     public String getDisplayInfo() {

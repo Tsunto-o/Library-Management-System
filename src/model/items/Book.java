@@ -9,10 +9,11 @@ public class Book extends LibraryItem implements Borrowable {
     private String genre;
 
     public Book(int stableId, String title, String publicationData, String status, String author, String isbn, String genre, int pages) {
-        super(stableId, title, publicationData, status, pages);
+        super(stableId, title, publicationData, status, pages,"BOOK");
         this.author = author;
         this.isbn = isbn;
         this.genre = genre;
+
     }
 
     public String getAuthor() {

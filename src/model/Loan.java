@@ -26,6 +26,11 @@ public class Loan implements Comparable<Loan> {
 
     }
 
+    public void itemReturned(LocalDate returnDate) {
+        this.returned=true;
+        this.returnDate=returnDate;
+    }
+
     public int getLoanId () {
         return loanId;
     }
