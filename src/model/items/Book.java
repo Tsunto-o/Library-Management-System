@@ -11,7 +11,7 @@ public class Book extends LibraryItem implements Borrowable {
     private String genre;
 
     public Book(int stableId, String title, LocalDate publicationData, String status, String author, String isbn, String genre, int pages) {
-        super(stableId, title, publicationData, status, pages,"BOOK");
+        super("BOOK", stableId, title, publicationData, status, pages);
         this.author = author;
         this.isbn = isbn;
         this.genre = genre;
@@ -32,8 +32,8 @@ public class Book extends LibraryItem implements Borrowable {
 
     @Override
     public String getDisplayInfo() {
-        return "Book: " + getTitle() + " by " + author + " (ID: " + getStableId()
-                + ", ISBN: " + isbn + ", Pages: " + getNombreDePages()
+        return "Book: " + getTitle() + " by " + this.author + " (ID: " + getStableId()
+                + ", ISBN: " + this.isbn + ", Pages: " + getNombreDePages()
                 + ", Publication: " + getPublicationData() + ", Status: " + getStatus() + ")";
 
 

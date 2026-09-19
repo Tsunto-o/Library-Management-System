@@ -191,11 +191,10 @@ public class main {
     public static void main(String[] args) {
         ///welcome();
         itemList listI = new itemList();
-        try {
-            listI.load("src/model/items/itemMemory/items.csv");
-        } catch (Exception e){
-            System.out.print("fail");
-        };
+        listI.load("src/model/items/itemMemory/items.csv");
+        listI.displayListItems();
+
+
 
 
 
