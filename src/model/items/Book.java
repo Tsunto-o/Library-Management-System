@@ -2,13 +2,15 @@ package model.items;
 
 import exception.LibraryException;
 
+import java.time.LocalDate;
+
 
 public class Book extends LibraryItem implements Borrowable {
     private String author;
     private String isbn;
     private String genre;
 
-    public Book(int stableId, String title, String publicationData, String status, String author, String isbn, String genre, int pages) {
+    public Book(int stableId, String title, LocalDate publicationData, String status, String author, String isbn, String genre, int pages) {
         super(stableId, title, publicationData, status, pages,"BOOK");
         this.author = author;
         this.isbn = isbn;

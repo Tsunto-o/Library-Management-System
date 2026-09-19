@@ -1,14 +1,16 @@
 package model.items;
 
+import java.time.LocalDate;
+
 public abstract class LibraryItem implements Comparable<LibraryItem> {
     private int stableId;
     private String title;
-    private String publicationData;
+    private LocalDate publicationData;
     private String status;
     private int pages;
     private String type;
 
-    public LibraryItem(int stableId, String title, String publicationData, String status, int pages,String type) {
+    public LibraryItem(int stableId, String title, LocalDate publicationData, String status, int pages, String type) {
         this.stableId = stableId;
         this.title = title;
         this.publicationData = publicationData;
@@ -23,7 +25,7 @@ public abstract class LibraryItem implements Comparable<LibraryItem> {
     public int getStableId() {
         return stableId;
     }
-    public String getPublicationData () {
+    public LocalDate getPublicationData () {
         return publicationData;
     }
     public String getStatus() {

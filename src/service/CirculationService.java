@@ -58,4 +58,12 @@ public class CirculationService {
         }
     }
 
+    public void reserveItem(Book item) {
+        if (item.isAvailable()) {
+            return;
+        }
+
+
+    }
+
 }
