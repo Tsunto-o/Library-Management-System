@@ -3,7 +3,6 @@ package service;
 import model.Loan;
 import model.Reservation;
 import model.items.Book;
-import model.items.LibraryItem;
 import model.people.Member;
 import model.people.User;
 import exception.LibraryException;
@@ -13,13 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.LinkedList;
 
 public class CirculationService {
 
     private List<Loan> activeLoans;
-    private Map<Book, Queue<Reservation>> reservationQueues;
+    private Map<Book, List<Reservation>> reservationQueues;
     private int nextLoanId;
     private int nextReservationId;
 
@@ -31,7 +28,6 @@ public class CirculationService {
     }
 
     public Loan borrowItem(User borrower, Book item, LocalDate loanDate, LocalDate dueDate) {
-
         item.borrow();
 
         Loan loan = new Loan(nextLoanId, borrower, dueDate, item, loanDate, null, false);
@@ -40,16 +36,17 @@ public class CirculationService {
 
         return loan;
     }
-    public void returnItem(Loan loan,LocalDate date) {
-        Book book= (Book) loan.getItem();
+
+    public void returnItem(Loan loan, LocalDate date) {
+        Book book = (Book) loan.getItem();
         book.returnItem();
         loan.itemReturned(date);
 
-        Queue<Reservation> queue = reservationQueues.get(book);
+        List<Reservation> queue = reservationQueues.get(book);
         if (queue == null || queue.isEmpty()) {
             return;
         }
-        Reservation next = queue.poll();
+        Reservation next = queue.remove(0);
         next.fulfill();
         int position = 1;
         for (Reservation reservation : queue) {
@@ -58,12 +55,27 @@ public class CirculationService {
         }
     }
 
-    public void reserveItem(Book item) {
+    public Reservation reserveItem(Book item, Member member) {
         if (item.isAvailable()) {
-            return;
+            throw new LibraryException("You can't reserve an item already available");
         }
 
+        if (!reservationQueues.containsKey(item)) {
+            reservationQueues.put(item, new ArrayList<>());
+        }
 
+        List<Reservation> itemQueue = reservationQueues.get(item);
+
+        int position = itemQueue.size() + 1;
+        Reservation reservation = new Reservation(nextReservationId, member, item, position);
+        nextReservationId = nextReservationId + 1;
+
+        itemQueue.add(reservation);
+
+        return reservation;
     }
 
+    public List<Loan> getActiveLoans() {
+        return activeLoans;
+    }
 }
