@@ -190,9 +190,9 @@ public class main {
 
     public static void main(String[] args) {
         ///welcome();
-        itemList listI = new itemList();
-        listI.load("src/model/items/itemMemory/items.csv");
-        listI.displayListItems();
+        itemList listItem = new itemList();
+        listItem.load("src/model/items/itemMemory/items.csv");
+        listItem.displayListItems();
 
 
 
