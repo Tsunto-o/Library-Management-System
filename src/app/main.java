@@ -1,11 +1,8 @@
 package app;
 
-import model.items.LibraryItem;
 import model.items.itemMemory.ItemList;
 import model.user.Member;
-import model.user.User;
 import model.user.userMemory.UsersList;
-import service.CirculationService;
 
 import java.sql.Date;
 import java.time.DateTimeException;
@@ -26,15 +23,14 @@ public class main {
                 "       1 - Login\n" +
                 "       2 - Register\n\n");
 
-        ///switch (readInputOption(1, 2)) {
-           /// case 1:
-              ///  login(listUser);
-                ///break;
-            ///case 2:
-            ///    register(listUser);
-            ///    break;
-        ///}
-        mainMenu(listUser,listItem);
+        switch (readInputOption(1, 2)) {
+            case 1:
+                login(listUser);
+                break;
+            case 2:
+                register(listUser);
+                break;
+        }
     }
 
     /**
@@ -162,60 +158,6 @@ public class main {
 
         listUser.addUser(new Member(stableId,password,firstName,lastName,birthDate,3));
         listUser.save("src/model/user/userMemory/users.csv");
-    }
-
-    public static void borrowMenu(User currentUser, UsersList listUser, ItemList listItem, CirculationService circulationService) {
-        System.out.print("\n_______________________________________________________________________________________\n" +
-                "\n" +
-                "Borrow an item\n" +
-                "\n");
-
-        System.out.println("All available book: \n");
-
-        for (LibraryItem item : listItem.getListItems()) {
-            if (item.getStatus().equals("AVAILABLE")) {
-
-                item.getDisplayInfo();
-
-
-            }
-
-        }
-        System.out.println("Enter the id of the book you want: ");
-        Scanner scanner = new Scanner(System.in);
-
-
-    }
-
-
-        public static void mainMenu(UsersList listUser, ItemList listItem) {
-        System.out.print("\n_______________________________________________________________________________________\n" +
-                "\n\n" +
-                "----------------------------------------Main Menu----------------------------------------\n" +
-                "\n" +
-                "               Choose an option :\n" +
-                "                                   1 - Borrow an item\n" +
-                "                                   2 - Return an item\n" +
-                "                                   3 - Reserve an item\n" +
-                "                                   4 - Search / filter catalogue\n" +
-                "                                   5 - View reports\n" +
-                "                                   6 - Logout\n\n");
-
-        switch (readInputOption(1, 6)) {
-            case 1:
-                borrowMenu();
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                welcome(listUser, listItem);
-                break;
-        }
     }
 
     /// concurrence
