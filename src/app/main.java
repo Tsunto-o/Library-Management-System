@@ -42,7 +42,30 @@ public class main {
             System.out.println("\nCatalogue is empty.");
             welcome(listUser, listItem);
         }
+
+        System.out.print("\n_______________________________________________________________________________________\n" +
+                "\n" +
+                "Catalogue - Choose display order :\n" +
+                "   1 - Default / Natural Order (by ID)\n" +
+                "   2 - Sort by Title\n" +
+                "   3 - Sort by Publication Date\n" +
+                "   4 - Sort by Author (Books)\n" +
+                "   5 - Back to Main Menu\n\n");
+
+        switch (readInputOption(1, 5)) {
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+        }
     }
+
+
 
     /**
      * Login page (2nd level)
