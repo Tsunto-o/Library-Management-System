@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class itemList {
+public class ItemList {
     private List<LibraryItem> listItems = new ArrayList<>();
 
     public void addItem(LibraryItem item){
@@ -22,7 +22,7 @@ public class itemList {
 
     public void displayListItems(){
         for (LibraryItem i:this.listItems){
-            System.out.print(i.toString());
+            System.out.println(i.getDisplayInfo());
         }
     }
 

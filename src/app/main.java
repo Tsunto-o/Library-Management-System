@@ -1,7 +1,10 @@
 package app;
 
-import model.items.itemMemory.itemList;
+import model.items.itemMemory.ItemList;
+import model.user.Member;
+import model.user.userMemory.UsersList;
 
+import java.sql.Date;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -190,11 +193,23 @@ public class main {
 
     public static void main(String[] args) {
         ///welcome();
-        itemList listItem = new itemList();
+
+
+
+        ItemList listItem = new ItemList();
         listItem.load("src/model/items/itemMemory/items.csv");
         listItem.displayListItems();
 
+        UsersList listUser = new UsersList();
 
+        listUser.load("src/model/items/itemMemory/items.csv");
+        listUser.addUser(new Member("testgv", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
+        listUser.addUser(new Member("testgv1", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
+        listUser.addUser(new Member("testgv2", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
+
+        listUser.removeUser("testgv1");
+
+        listUser.displaylistUsers();
 
 
 

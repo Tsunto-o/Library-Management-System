@@ -1,11 +1,10 @@
-package model.people;
+package model.user;
 
 import java.time.LocalDate;
 
 public class Admin extends User {
     public Admin(String stableId, String firstName, String lastName, LocalDate birthdayDate) {
-        super(stableId, firstName, lastName, birthdayDate, "ADMIN");
-
+        super("ADMIN", stableId, firstName, lastName, birthdayDate);
     }
 
     @Override

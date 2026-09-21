@@ -3,8 +3,8 @@ package service;
 import model.Loan;
 import model.Reservation;
 import model.items.Book;
-import model.people.Member;
-import model.people.User;
+import model.user.Member;
+import model.user.User;
 import exception.LibraryException;
 
 import java.time.LocalDate;

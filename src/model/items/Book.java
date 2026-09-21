@@ -32,9 +32,9 @@ public class Book extends LibraryItem implements Borrowable {
 
     @Override
     public String getDisplayInfo() {
-        return "Book: " + getTitle() + " by " + this.author + " (ID: " + getStableId()
-                + ", ISBN: " + this.isbn + ", Pages: " + getNombreDePages()
-                + ", Publication: " + getPublicationData() + ", Status: " + getStatus() + ")";
+        return "Book: " + getTitle() + " by " + this.author + " | (ID: " + this.getStableId()
+                + " | ISBN: " + this.isbn + " | Pages: " + this.getNombreDePages()
+                + " | Publication: " + this.getPublicationData() + " | Status: " + this.getStatus() + ")";
 
 
     }
