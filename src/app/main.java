@@ -21,15 +21,26 @@ public class main {
                 "\n" +
                 "   Choose an option :\n" +
                 "       1 - Login\n" +
-                "       2 - Register\n\n");
+                "       2 - Register\n" +
+                "       3 - Browse & Sort Catalogue\n\n" );
 
-        switch (readInputOption(1, 2)) {
+        switch (readInputOption(1, 3)) {
             case 1:
                 login(listUser);
                 break;
             case 2:
                 register(listUser);
                 break;
+            case 3:
+                BrowseAndSort(listUser, listItem);
+                break;
+        }
+    }
+
+    public static void BrowseAndSort(UsersList listUser, ItemList listItem) {
+        if (listItem.getListItems().isEmpty()) {
+            System.out.println("\nCatalogue is empty.");
+            welcome(listUser, listItem);
         }
     }
 
@@ -45,7 +56,7 @@ public class main {
                 "       1 - Login\n" +
                 "       2 - Register\n\n");
 
-        switch (readInputOption(1, 2)) {
+        switch (readInputOption(1, 3)) {
             case 1:
                 login(listUser);
                 break;
