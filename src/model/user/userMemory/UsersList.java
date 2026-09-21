@@ -6,6 +6,7 @@ import model.items.Magazine;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.Scanner;
 
 public class UsersList {
     private List<User> listUsers = new ArrayList<>();
+
+    public List<User> getListUsers() {return this.listUsers;}
 
     public void addUser(User user){
         listUsers.add(user);
@@ -35,6 +38,30 @@ public class UsersList {
     public void displaylistUsers(){
         for (User i:this.listUsers){
             System.out.println(i.getDisplayInfo());
+        }
+    }
+
+    public void save(String path) {
+        try {
+            FileWriter writer = new FileWriter(path);
+            for (User i:this.listUsers){
+                writer.write(i.getRolePermissions() + "," + i.getStableId() + "," + i.getFirstName() + "," + i.getLastName() + "," + i.getBirthdayDate().getYear() + "," + i.getBirthdayDate().getMonth() + "," + i.getBirthdayDate().getDayOfMonth() + "\n");
+            }
+            writer.close();
+        }catch (IOException e){
+            System.out.print("User list save not found. Creating new one...");
+            try {
+                File csvFile = new File(path);
+                csvFile.createNewFile();
+                FileWriter writer = new FileWriter(path);
+                for (User i:this.listUsers){
+                    writer.write(i.getRolePermissions() + "," + i.getStableId() + "," + i.getFirstName() + "," + i.getLastName() + "," + i.getBirthdayDate().getYear() + "," + i.getBirthdayDate().getMonth() + "," + i.getBirthdayDate().getDayOfMonth() + "\n");
+                }
+                writer.close();
+            }
+            catch (IOException e2) {
+                System.out.print("Failed creating a new user list save file. Program working without memory.");
+            }
         }
     }
 
@@ -88,7 +115,6 @@ public class UsersList {
             try {
                 File csvFile = new File(csvFilePath);
                 csvFile.createNewFile();
-
             }
             catch (IOException e2) {
                 System.out.print("Failed creating a new user list save file. Program working without memory.");

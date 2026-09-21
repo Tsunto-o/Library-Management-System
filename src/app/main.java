@@ -200,6 +200,7 @@ public class main {
         listItem.load("src/model/items/itemMemory/items.csv");
         listItem.displayListItems();
 
+
         UsersList listUser = new UsersList();
 
         listUser.load("src/model/items/itemMemory/items.csv");
@@ -212,7 +213,9 @@ public class main {
         listUser.displaylistUsers();
 
 
+        System.out.println(listUser.getListUsers().get(0));
 
+        listUser.save("src/model/user/userMemory/users.csv");
 
     }
 }

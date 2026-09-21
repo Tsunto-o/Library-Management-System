@@ -3,6 +3,7 @@ package model.items.itemMemory;
 import model.items.Book;
 import model.items.LibraryItem;
 import model.items.Magazine;
+import model.user.User;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +16,8 @@ import java.util.Scanner;
 
 public class ItemList {
     private List<LibraryItem> listItems = new ArrayList<>();
+
+    public List<LibraryItem> getListItems() {return this.listItems;}
 
     public void addItem(LibraryItem item){
         listItems.add(item);
