@@ -14,7 +14,7 @@ public class main {
     /**
      * Welcoming page (1st level)
      */
-    public static void welcome() {
+    public static void welcome(UsersList listUser, ItemList listItem) {
         System.out.print("\n_______________________________________________________________________________________\n" +
                 "\n" +
                 "Welcome to the Library Management System !\n" +
@@ -25,10 +25,10 @@ public class main {
 
         switch (readInputOption(1, 2)) {
             case 1:
-                login();
+                login(listUser);
                 break;
             case 2:
-                register();
+                register(listUser);
                 break;
         }
     }
@@ -36,7 +36,7 @@ public class main {
     /**
      * Login page (2nd level)
      */
-    public static void login() {
+    public static void login(UsersList listUser) {
         System.out.print("\n_______________________________________________________________________________________\n" +
                 "\n" +
                 "Login \n" +
@@ -47,10 +47,10 @@ public class main {
 
         switch (readInputOption(1, 2)) {
             case 1:
-                login();
+                login(listUser);
                 break;
             case 2:
-                register();
+                register(listUser);
                 break;
         }
     }
@@ -58,7 +58,7 @@ public class main {
     /**
      * Register page (2nd level)
      */
-    public static void register() {
+    public static void register(UsersList listUser) {
         System.out.print("\n_______________________________________________________________________________________\n" +
                 "\n" +
                 "Registering new user :\n" +
@@ -156,7 +156,8 @@ public class main {
             break;
         }
 
-
+        listUser.addUser(new Member(stableId,password,firstName,lastName,birthDate,3));
+        listUser.save("src/model/user/userMemory/users.csv");
     }
 
     /// concurrence
@@ -192,30 +193,23 @@ public class main {
 
 
     public static void main(String[] args) {
-        ///welcome();
-
-
-
         ItemList listItem = new ItemList();
         listItem.load("src/model/items/itemMemory/items.csv");
-        listItem.displayListItems();
+        ///listItem.displayListItems();
 
 
         UsersList listUser = new UsersList();
+        listUser.load("src/model/user/userMemory/users.csv");
+        ///listUser.displaylistUsers();
 
-        listUser.load("src/model/items/itemMemory/items.csv");
-        listUser.addUser(new Member("testgv", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
-        listUser.addUser(new Member("testgv1", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
-        listUser.addUser(new Member("testgv2", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
-
-        listUser.removeUser("testgv1");
-
-        listUser.displaylistUsers();
-
-
-        System.out.println(listUser.getListUsers().get(0));
+        welcome(listUser, listItem);
 
         listUser.save("src/model/user/userMemory/users.csv");
 
     }
 }
+
+
+///         listUser.addUser(new Member("testgv", "pw", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
+///         listUser.addUser(new Member("testgv1", "pass", "Gia", "To", LocalDate.of(2000, 9, 11), 8));
+///         listUser.addUser(new Member("testgv2","pw2", "Gia", "To", LocalDate.of(2000, 9, 11), 8));

@@ -45,7 +45,16 @@ public class UsersList {
         try {
             FileWriter writer = new FileWriter(path);
             for (User i:this.listUsers){
-                writer.write(i.getRolePermissions() + "," + i.getStableId() + "," + i.getFirstName() + "," + i.getLastName() + "," + i.getBirthdayDate().getYear() + "," + i.getBirthdayDate().getMonth() + "," + i.getBirthdayDate().getDayOfMonth() + "\n");
+                String entryType = i.getRolePermissions();
+                if (entryType.equals("ADMIN")) {
+                    writer.write(i.getRolePermissions() + "," + i.getStableId() + "," + i.getPassword() + "," + i.getFirstName() + "," + i.getLastName() + "," + i.getBirthdayDate().getYear() + "," + i.getBirthdayDate().getMonthValue() + "," + i.getBirthdayDate().getDayOfMonth() + "\n");
+                }
+                else if (entryType.equals("LIBRARIAN")) {
+                    writer.write(i.getRolePermissions() + "," + i.getStableId() + "," + i.getPassword() + "," + i.getFirstName() + "," + i.getLastName() + "," + i.getBirthdayDate().getYear() + "," + i.getBirthdayDate().getMonthValue() + "," + i.getBirthdayDate().getDayOfMonth() + "\n");
+                }
+                if (entryType.equals("MEMBER")) {
+                    writer.write(i.getRolePermissions() + "," + i.getStableId() + "," + i.getPassword() + "," + i.getFirstName() + "," + i.getLastName() + "," + i.getBirthdayDate().getYear() + "," + i.getBirthdayDate().getMonthValue() + "," + i.getBirthdayDate().getDayOfMonth() + "," + ((Member) i).getActiveLoanLimit() +  "\n");
+                }
             }
             writer.close();
         }catch (IOException e){
@@ -78,7 +87,7 @@ public class UsersList {
                     String entryType = lineScanner.next();
                     if (entryType.equals("ADMIN")) {
                         try {
-                            Admin entry = new Admin(lineScanner.next(), lineScanner.next(), lineScanner.next(), LocalDate.of(lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()));
+                            Admin entry = new Admin(lineScanner.next(), lineScanner.next(), lineScanner.next(), lineScanner.next(), LocalDate.of(lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()));
                             this.listUsers.add(entry);
                         } catch (Exception e){
                             System.out.print("Failed to read entry. Skipped.\n");
@@ -87,7 +96,7 @@ public class UsersList {
                     }
                     else if (entryType.equals("LIBRARIAN")) {
                         try {
-                            Librarian entry = new Librarian(lineScanner.next(), lineScanner.next(), lineScanner.next(), LocalDate.of(lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()));
+                            Librarian entry = new Librarian(lineScanner.next(), lineScanner.next(), lineScanner.next(), lineScanner.next(), LocalDate.of(lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()));
                             this.listUsers.add(entry);
                         } catch (Exception e) {
                             System.out.print("Failed to read entry. Skipped.\n");
@@ -96,10 +105,10 @@ public class UsersList {
                     }
                     else if (entryType.equals("MEMBER")) {
                             try {
-                                Member entry = new Member(lineScanner.next(), lineScanner.next(), lineScanner.next(), LocalDate.of(lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()), lineScanner.nextInt());
+                                Member entry = new Member(lineScanner.next(), lineScanner.next(), lineScanner.next(), lineScanner.next(), LocalDate.of(lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()), lineScanner.nextInt());
                                 this.listUsers.add(entry);
                             } catch (Exception e){
-                                System.out.print("Failed to read entry. Skipped.\n");
+                                System.out.print("Failed to read entry. Skipped...\n");
                                 continue;
                             }
                     } else {
