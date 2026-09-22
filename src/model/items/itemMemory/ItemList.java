@@ -63,7 +63,7 @@ public class ItemList {
                         continue;
                     }
                 }
-                System.out.print("Read entry successfully.\n");
+                ///System.out.print("Read entry successfully.\n");
                 ///Book test = new Book(17,"Cyrano de Bergerac", LocalDate.of(1897, 12, 28), "available", "Edmond Rostand", "jsp123", "Comedy", 389);
             }
         }

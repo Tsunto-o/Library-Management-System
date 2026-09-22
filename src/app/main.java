@@ -25,26 +25,22 @@ public class main {
                 "\n" +
                 "   Choose an option :\n" +
                 "       1 - Login\n" +
-                "       2 - Register\n" +
-                "       3 - Browse & Sort Catalogue\n\n" );
+                "       2 - Register\n\n");
 
-        switch (readInputOption(1, 3)) {
+        switch (readInputOption(1, 2)) {
             case 1:
-                login(listUser);
+                login(listUser, listItem);
                 break;
             case 2:
-                register(listUser);
-                break;
-            case 3:
-                BrowseAndSort(listUser, listItem);
+                register(listUser, listItem);
                 break;
         }
     }
 
-    public static void BrowseAndSort(UsersList listUser, ItemList listItem) {
+    public static void BrowseAndSort(User session, UsersList listUser, ItemList listItem) {
         if (listItem.getListItems().isEmpty()) {
             System.out.println("\nCatalogue is empty.");
-            welcome(listUser, listItem);
+            menu(session, listUser, listItem);
         }
 
         System.out.print("\n_______________________________________________________________________________________\n" +
@@ -72,7 +68,7 @@ public class main {
                 sortedList.sort(new AuthorComparator());
                 break;
             case 5:
-                welcome(listUser, listItem);
+                menu(session, listUser, listItem);
                 break;
         }
 
@@ -82,37 +78,71 @@ public class main {
         }
 
         // Back to the menu after
-        welcome(listUser, listItem);
+        menu(session, listUser, listItem);
     }
+
 
 
 
     /**
      * Login page (2nd level)
      */
-    public static void login(UsersList listUser) {
+    public static void login(UsersList listUser, ItemList listItem) {
         System.out.print("\n_______________________________________________________________________________________\n" +
                 "\n" +
-                "Login \n" +
+                "Log in an existing account : \n" +
                 "\n" +
-                "   Choose an option :\n" +
-                "       1 - Login\n" +
-                "       2 - Register\n\n");
+                "   Enter user informations: \n");
 
-        switch (readInputOption(1, 3)) {
-            case 1:
-                login(listUser);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("      ID (username): ");
+        String stableId = scanner.nextLine();
+        while (true) {
+            if (stableId.isBlank()) {
+                System.out.print("      ID can't be blank.\n" +
+                        "      ID (username): ");
+                stableId = scanner.nextLine();
+                continue;
+            }
+            else if (!listUser.accountExists(stableId)) {
+                System.out.print("This account does not exist. \n");
+                welcome(listUser, listItem);
                 break;
-            case 2:
-                register(listUser);
+            }
+
+            System.out.print("      Password: ");
+            String password = scanner.nextLine();
+            while (true) {
+                if (password.isBlank()) {
+                    System.out.print("      Password can't be blank.\n" +
+                            "      Password: ");
+                    password = scanner.nextLine();
+                    continue;
+                }
                 break;
+            }
+            if (password.equals(listUser.getAccountPassword(stableId))){
+                System.out.print("   Right password.");
+                menu(listUser.getSession(stableId), listUser, listItem);
+                return;
+            }
+            else {
+                System.out.print("   Wrong password.");
+                welcome(listUser, listItem);
+                break;
+            }
+
         }
     }
+
+
+
 
     /**
      * Register page (2nd level)
      */
-    public static void register(UsersList listUser) {
+    public static void register(UsersList listUser, ItemList listItem) {
         System.out.print("\n_______________________________________________________________________________________\n" +
                 "\n" +
                 "Registering new user :\n" +
@@ -210,9 +240,49 @@ public class main {
             break;
         }
 
-        listUser.addUser(new Member(stableId,password,firstName,lastName,birthDate,3));
+        Member newMember = new Member(stableId,password,firstName,lastName,birthDate,3);
+        listUser.addUser(newMember);
         listUser.save("src/model/user/userMemory/users.csv");
+        menu(listUser.getSession(stableId), listUser, listItem);
+        return;
     }
+
+
+    /**
+     * Menu page (3rd level)
+     */
+    public static void menu(User session, UsersList listUser, ItemList listItem){
+        System.out.print("\n_______________________________________________________________________________________\n" +
+                "\n" +
+                "Welcome " + session.getFirstName() + " !\n" +
+                "\n" +
+                "   What are you here for ? : \n" +
+                "       1 - Borrow an item\n" +
+                "       2 - Return an item\n" +
+                "       3 - Reserve an item\n" +
+                "       4 - Search / filter catalogue\n" +
+                "       5 - View reports\n" +
+                "       6 - Logout\n\n");
+
+        switch (readInputOption(1, 6)) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                BrowseAndSort(session, listUser, listItem);
+                break;
+            case 5:
+                break;
+            case 6:
+                welcome(listUser, listItem);
+                break;
+        }
+
+    }
+
 
     /// concurrence
     /// identifiable.java

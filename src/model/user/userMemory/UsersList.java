@@ -35,6 +35,24 @@ public class UsersList {
         }
     }
 
+    public boolean accountExists(String id){
+        for (User i:this.listUsers){
+            if (i.getStableId().equals(id)) {return true;}
+        } return false;
+    }
+
+    public String getAccountPassword(String id){
+        for (User i:this.listUsers){
+            if (i.getStableId().equals(id)) {return i.getPassword();}
+        } return "";
+    }
+
+    public User getSession(String id){
+        for (User i:this.listUsers){
+            if (i.getStableId().equals(id)) {return i;}
+        } return null;
+    }
+
     public void displaylistUsers(){
         for (User i:this.listUsers){
             System.out.println(i.getDisplayInfo());
@@ -116,7 +134,7 @@ public class UsersList {
                         continue;
                     }
                 }
-                System.out.print("Read entry successfully.\n");
+                ///System.out.print("Read entry successfully.\n");
             }
         }
         catch (FileNotFoundException e) {
