@@ -46,7 +46,7 @@ public class CirculationService {
         if (queue == null || queue.isEmpty()) {
             return;
         }
-        Reservation next = queue.remove(0);
+        Reservation next = queue.removeFirst();
         next.fulfill();
         int position = 1;
         for (Reservation reservation : queue) {
@@ -78,4 +78,5 @@ public class CirculationService {
     public List<Loan> getActiveLoans() {
         return activeLoans;
     }
+    
 }

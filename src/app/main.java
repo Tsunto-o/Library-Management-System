@@ -3,6 +3,7 @@ package app;
 import model.items.LibraryItem;
 import model.items.itemMemory.ItemList;
 import model.user.Member;
+import model.user.User;
 import model.user.userMemory.UsersList;
 import ordering.AuthorComparator;
 import ordering.PublicationDateComparator;
