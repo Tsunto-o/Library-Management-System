@@ -6,7 +6,7 @@ import model.Identifiable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class    Repository<T extends Identifiable> {
+public class Repository<T extends Identifiable> {
     private List<T> items;
 
     public Repository() {

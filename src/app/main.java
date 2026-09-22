@@ -14,6 +14,7 @@ import static model.menu.borrowItemMenu.borrowItemMenu;
 import static model.menu.returnItemMenu.returnItemMenu;
 import static model.menu.reserveItemMenu.reserveItemMenu;
 import static model.menu.browseAndSortMenu.browseAndSortMenu;
+import static model.menu.searchMenu.searchMenu;
 import static model.menu.viewReportsMenu.viewReportsMenu;
 
 import java.time.DateTimeException;
@@ -280,7 +281,7 @@ public class main {
                 reserveItemMenu(session, listUser, listItem);
                 break;
             case 4:
-                browseAndSortMenu(session, listUser, listItem);
+                searchMenu(session, listUser, listItem);
                 break;
             case 5:
                 viewReportsMenu(session, listUser, listItem);
