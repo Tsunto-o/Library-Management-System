@@ -1,14 +1,17 @@
 package app;
 
+import model.items.LibraryItem;
 import model.items.itemMemory.ItemList;
 import model.user.Member;
 import model.user.userMemory.UsersList;
+import ordering.AuthorComparator;
+import ordering.PublicationDateComparator;
+import ordering.TitleComparator;
 
 import java.sql.Date;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class main {
     /**
@@ -52,17 +55,33 @@ public class main {
                 "   4 - Sort by Author (Books)\n" +
                 "   5 - Back to Main Menu\n\n");
 
+        List<LibraryItem> sortedList = new ArrayList<>(listItem.getListItems());
+
         switch (readInputOption(1, 5)) {
             case 1:
-
+                Collections.sort(sortedList); // Ordre naturel (Comparable -> ID)
                 break;
             case 2:
-
+                sortedList.sort(new TitleComparator());
                 break;
             case 3:
-
+                sortedList.sort(new PublicationDateComparator());
+                break;
+            case 4:
+                sortedList.sort(new AuthorComparator());
+                break;
+            case 5:
+                welcome(listUser, listItem);
                 break;
         }
+
+        System.out.println("\n--- Items in Catalogue (" + sortedList.size() + ") ---");
+        for (LibraryItem item : sortedList) {
+            System.out.println(" • " + item.getDisplayInfo());
+        }
+
+        // Back to the menu after
+        welcome(listUser, listItem);
     }
 
 
