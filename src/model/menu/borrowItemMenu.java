@@ -8,6 +8,7 @@ import model.items.itemMemory.ItemList;
 import model.user.Member;
 import model.user.User;
 import model.user.userMemory.UsersList;
+import repository.Repository;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -16,15 +17,6 @@ import static app.main.circulationService;
 import static app.main.menu;
 
 public class borrowItemMenu {
-
-    public static LibraryItem findItemById(ItemList listItem, int id) {
-        for (LibraryItem item : listItem.getListItems()) {
-            if (item.getStableId() == id) {
-                return item;
-            }
-        }
-        return null;
-    }
 
     public static void borrowItemMenu(User session, UsersList listUser, ItemList listItem) {
         System.out.print("\n_______________________________________________________________________________________\n" +
@@ -47,6 +39,32 @@ public class borrowItemMenu {
             }
         }
 
+        Repository<Book> availableBooksRepo = new Repository<>();
+        Repository<LibraryItem> allItemsRepo = new Repository<>();
+
+        for (LibraryItem item : listItem.getListItems()) {
+            allItemsRepo.add(item);
+            if (item instanceof Book) {
+                Book book = (Book) item;
+                if (book.isAvailable()) {
+                    availableBooksRepo.add(book);
+                }
+            }
+        }
+
+        System.out.println("Available items to borrow (" + availableBooksRepo.getAll().size() + ") :");
+        if (availableBooksRepo.getAll().isEmpty()) {
+            System.out.println("  No books are currently available for borrowing.");
+            menu(session, listUser, listItem);
+            return;
+        }
+
+        for (Book b : availableBooksRepo.getAll()) {
+            System.out.println("  • [ID: " + b.getStableId() + "] \"" + b.getTitle() + "\" by " + b.getAuthor() +
+                    " (" + b.getGenre() + ", " + b.getNombreDePages() + " pages)");
+        }
+        System.out.println();
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the ID of the item you want to borrow (or 0 to cancel): ");
         int itemId;
@@ -63,14 +81,13 @@ public class borrowItemMenu {
             return;
         }
 
-        LibraryItem item = findItemById(listItem, itemId);
+        LibraryItem item = allItemsRepo.findById(String.valueOf(itemId));
         if (item == null) {
             System.out.println("Item with ID " + itemId + " not found in catalogue.");
             menu(session, listUser, listItem);
             return;
         }
 
-        // Seuls les livres peuvent être empruntés
         if (!(item instanceof Book)) {
             System.out.println("Item \"" + item.getTitle() + "\" is a " + item.getType() + ".");
             System.out.println("Magazines cannot be borrowed (in-library reading only).");
@@ -89,7 +106,7 @@ public class borrowItemMenu {
 
         try {
             LocalDate loanDate = LocalDate.now();
-            LocalDate dueDate = loanDate.plusDays(14); // 2 semaines standard
+            LocalDate dueDate = loanDate.plusDays(14);
 
             Loan loan = circulationService.borrowItem(session, book, loanDate, dueDate);
             System.out.println("\nSuccess! You borrowed: \"" + book.getTitle() + "\"");
