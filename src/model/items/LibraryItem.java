@@ -1,8 +1,9 @@
 package model.items;
 
 import java.time.LocalDate;
+import model.Identifiable;
 
-public abstract class LibraryItem implements Comparable<LibraryItem> {
+public abstract class LibraryItem implements Comparable<LibraryItem>, Identifiable {
     private int stableId;
     private String title;
     private LocalDate publicationData;
@@ -54,4 +55,9 @@ public abstract class LibraryItem implements Comparable<LibraryItem> {
     }
 
     public abstract void returned();
+
+    @Override
+    public String getIdentifier() {
+        return String.valueOf(getStableId());
+    }
 }

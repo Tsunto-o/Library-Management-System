@@ -1,8 +1,9 @@
 package model.user;
 
 import java.time.LocalDate;
+import model.Identifiable;
 
-public abstract class User implements Comparable<User> {
+public abstract class User implements Comparable<User>, Identifiable {
     private String rolePermissions;
     private String stableId;
     private String password;
@@ -48,5 +49,10 @@ public abstract class User implements Comparable<User> {
     @Override
     public int compareTo(User second) {
         return this.lastName.compareTo(second.lastName);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return getStableId();
     }
 }
