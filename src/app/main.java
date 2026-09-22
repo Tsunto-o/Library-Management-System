@@ -2,6 +2,7 @@ package app;
 
 import model.items.itemMemory.ItemList;
 import model.user.Member;
+import model.user.User;
 import model.user.userMemory.UsersList;
 
 import java.sql.Date;
@@ -191,6 +192,35 @@ public class main {
         return res;
     }
 
+    public static void mainMenu(UsersList listUser, ItemList listItem) {
+        System.out.print("\n_______________________________________________________________________________________\n" +
+                "\n" +
+                "Main Menu" +"!\n" +
+                "\n" +
+                "   Choose an option :\n" +
+                "       1 - Borrow an item\n" +
+                "       2 - Return an item\n" +
+                "       3 - Reserve an item\n" +
+                "       4 - Search / filter catalogue\n" +
+                "       5 - View reports\n" +
+                "       6 - Logout\n\n");
+
+        switch (readInputOption(1, 6)) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                welcome(listUser, listItem);
+                break;
+        }
+    }
 
     public static void main(String[] args) {
         ItemList listItem = new ItemList();
