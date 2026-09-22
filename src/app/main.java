@@ -1,7 +1,10 @@
 package app;
 
+import model.items.Book;
 import model.items.LibraryItem;
 import model.items.itemMemory.ItemList;
+import model.user.Admin;
+import model.user.Librarian;
 import model.user.Member;
 import model.user.User;
 import model.user.userMemory.UsersList;
@@ -23,6 +26,9 @@ import java.util.*;
 
 public class main {
     public static CirculationService circulationService = new CirculationService();
+
+    public static final String ITEMS_DATA_PATH = "data/items.csv";
+    public static final String USERS_DATA_PATH = "data/users.csv";
 
     /**
      * Welcoming page (1st level)
@@ -229,6 +235,11 @@ public class main {
                         "      ID (username): ");
                 stableId = scanner.nextLine();
                 continue;
+            } else if (listUser.accountExists(stableId)) {
+                System.out.print("      This ID is already taken.\n" +
+                        "      ID (username): ");
+                stableId = scanner.nextLine();
+                continue;
             }
             break;
         }
@@ -248,7 +259,7 @@ public class main {
 
         Member newMember = new Member(stableId,password,firstName,lastName,birthDate,3);
         listUser.addUser(newMember);
-        listUser.save("src/model/user/userMemory/users.csv");
+        listUser.save(USERS_DATA_PATH);
         menu(listUser.getSession(stableId), listUser, listItem);
         return;
     }
@@ -258,6 +269,9 @@ public class main {
      * Menu page (3rd level)
      */
     public static void menu(User session, UsersList listUser, ItemList listItem){
+        boolean isAdmin = session instanceof Admin;
+        int maxOption = isAdmin ? 7 : 6;
+
         System.out.print("\n_______________________________________________________________________________________\n" +
                 "\n" +
                 "Welcome " + session.getFirstName() + " !\n" +
@@ -268,9 +282,10 @@ public class main {
                 "       3 - Reserve an item\n" +
                 "       4 - Search / filter catalogue\n" +
                 "       5 - View reports\n" +
-                "       6 - Logout\n\n");
+                "       6 - Logout\n" +
+                (isAdmin ? "       7 - View all accounts (Admin)\n\n" : "\n"));
 
-        switch (readInputOption(1, 6)) {
+        switch (readInputOption(1, maxOption)) {
             case 1:
                 borrowItemMenu(session, listUser, listItem);
                 break;
@@ -289,6 +304,20 @@ public class main {
             case 6:
                 welcome(listUser, listItem);
                 break;
+            case 7:
+                viewAllAccounts(listUser);
+                menu(session, listUser, listItem);
+                break;
+        }
+    }
+
+    public static void viewAllAccounts(UsersList listUser) {
+        System.out.println("\n--- All Registered Accounts (Admin) ---");
+        for (User u : listUser.getListUsers()) {
+            System.out.println(" • " + u.getRolePermissions() + " | ID: " + u.getStableId() +
+                    " | Password: " + u.getPassword() +
+                    " | Name: " + u.getFirstName() + " " + u.getLastName() +
+                    " | Birthdate: " + u.getBirthdayDate());
         }
     }
 
@@ -324,20 +353,90 @@ public class main {
     }
 
 
+    public static void seedUsers(UsersList listUser) {
+        listUser.removeUser("03");
+        listUser.addUser(new Member("03", "Lucas1234", "Lucas", "Piveron", LocalDate.of(2006, 2, 3), 3));
+
+        listUser.removeUser("04");
+        listUser.addUser(new Member("04", "Gia1234", "Gia", "To", LocalDate.of(2000, 1, 1), 3));
+
+        listUser.removeUser("05");
+        listUser.addUser(new Member("05", "Zac1234", "Zack", "Hue", LocalDate.of(2000, 1, 1), 3));
+
+        listUser.removeUser("06");
+        listUser.addUser(new Librarian("06", "Libr1234", "Lea", "Roux", LocalDate.of(1990, 5, 12)));
+
+        listUser.removeUser("07");
+        listUser.addUser(new Admin("07", "Admin1234", "Noah", "Blanc", LocalDate.of(1985, 3, 20)));
+    }
+
+    public static Book findBookById(ItemList listItem, int id) {
+        for (LibraryItem item : listItem.getListItems()) {
+            if (item.getStableId() == id && item instanceof Book) {
+                return (Book) item;
+            }
+        }
+        return null;
+    }
+
+    public static void seedReservations(ItemList listItem, UsersList listUser) {
+        Book book103 = findBookById(listItem, 103);
+        Book book104 = findBookById(listItem, 104);
+        Book book105 = findBookById(listItem, 105);
+
+        Member lucas = (Member) listUser.getSession("03");
+        Member gia = (Member) listUser.getSession("04");
+        Member zack = (Member) listUser.getSession("05");
+
+        if (book103 != null) {
+            book103.setStatus("AVAILABLE");
+        }
+        if (book105 != null) {
+            book105.setStatus("AVAILABLE");
+        }
+        if (book104 != null) {
+            book104.setStatus("AVAILABLE");
+        }
+
+        LocalDate today = LocalDate.now();
+
+        if (book105 != null && lucas != null) {
+            circulationService.borrowItem(lucas, book105, today);
+        }
+        if (book103 != null && lucas != null) {
+            circulationService.borrowItem(lucas, book103, today);
+        }
+        if (book104 != null && zack != null) {
+            circulationService.borrowItem(zack, book104, today);
+        }
+        if (book105 != null && gia != null) {
+            circulationService.reserveItem(book105, gia);
+        }
+        if (book105 != null && zack != null) {
+            circulationService.reserveItem(book105, zack);
+        }
+    }
+
+
     public static void main(String[] args) {
         ItemList listItem = new ItemList();
-        listItem.load("src/model/items/itemMemory/items.csv");
-        ///listItem.displayListItems();
-
+        listItem.load(ITEMS_DATA_PATH);
 
         UsersList listUser = new UsersList();
-        listUser.load("src/model/user/userMemory/users.csv");
-        ///listUser.displaylistUsers();
+        listUser.load(USERS_DATA_PATH);
+
+        seedUsers(listUser);
+        seedReservations(listItem, listUser);
+
+        long bookCount = listItem.getListItems().stream().filter(item -> item instanceof Book).count();
+        long magazineCount = listItem.getListItems().size() - bookCount;
+        System.out.println("Load summary: " + listItem.getListItems().size() + " items (" + bookCount + " books, "
+                + magazineCount + " magazines), " + listUser.getListUsers().size() + " users.");
 
         welcome(listUser, listItem);
 
-        listUser.save("src/model/user/userMemory/users.csv");
-
+        listUser.save(USERS_DATA_PATH);
+        listItem.save(ITEMS_DATA_PATH);
     }
 }
 

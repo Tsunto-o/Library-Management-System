@@ -3,12 +3,12 @@ package service;
 import model.Loan;
 import model.Reservation;
 import model.items.Book;
-import model.user.Member;
 import model.user.User;
 import exception.LibraryException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,17 +19,20 @@ public class CirculationService {
     private Map<Book, List<Reservation>> reservationQueues;
     private int nextLoanId;
     private int nextReservationId;
+    private final Loan.DueDatePolicy dueDatePolicy;
 
     public CirculationService() {
         this.activeLoans = new ArrayList<>();
         this.reservationQueues = new HashMap<>();
         this.nextLoanId = 1;
         this.nextReservationId = 1;
+        this.dueDatePolicy = new Loan.DueDatePolicy(14);
     }
 
-    public Loan borrowItem(User borrower, Book item, LocalDate loanDate, LocalDate dueDate) {
+    public Loan borrowItem(User borrower, Book item, LocalDate loanDate) {
         item.borrow();
 
+        LocalDate dueDate = dueDatePolicy.computeDueDate(loanDate);
         Loan loan = new Loan(nextLoanId, borrower, dueDate, item, loanDate, null, false);
         nextLoanId = nextLoanId + 1;
         activeLoans.add(loan);
@@ -48,6 +51,7 @@ public class CirculationService {
         }
         Reservation next = queue.removeFirst();
         next.fulfill();
+        borrowItem(next.getMember(), book, date);
         int position = 1;
         for (Reservation reservation : queue) {
             reservation.setQueuePostion(position);
@@ -55,7 +59,7 @@ public class CirculationService {
         }
     }
 
-    public Reservation reserveItem(Book item, Member member) {
+    public Reservation reserveItem(Book item, User member) {
         if (item.isAvailable()) {
             throw new LibraryException("You can't reserve an item already available");
         }
@@ -76,7 +80,11 @@ public class CirculationService {
     }
 
     public List<Loan> getActiveLoans() {
-        return activeLoans;
+        return Collections.unmodifiableList(activeLoans);
     }
-    
+
+    public Map<Book, List<Reservation>> getReservationQueues() {
+        return Collections.unmodifiableMap(reservationQueues);
+    }
+
 }

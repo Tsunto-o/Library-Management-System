@@ -58,4 +58,16 @@ public class Loan implements Comparable<Loan> {
     public int compareTo(Loan second) {
         return Integer.compare(this.loanId,second.loanId);
     }
+
+    public static class DueDatePolicy {
+        private final int loanPeriodDays;
+
+        public DueDatePolicy(int loanPeriodDays) {
+            this.loanPeriodDays = loanPeriodDays;
+        }
+
+        public LocalDate computeDueDate(LocalDate loanDate) {
+            return loanDate.plusDays(loanPeriodDays);
+        }
+    }
 }

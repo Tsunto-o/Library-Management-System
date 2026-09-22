@@ -2,17 +2,17 @@ package model;
 
 
 import model.items.LibraryItem;
-import model.user.Member;
+import model.user.User;
 
 
 public class Reservation implements Comparable<Reservation>{
     private int reservationId;
-    private Member member;
+    private User member;
     private LibraryItem item;
     private int queuePostion;
     private String state;
 
-    public Reservation(int reservationId,Member member,LibraryItem item,int queuePosition) {
+    public Reservation(int reservationId,User member,LibraryItem item,int queuePosition) {
         this.reservationId=reservationId;
         this.member=member;
         this.item=item;
@@ -32,7 +32,7 @@ public class Reservation implements Comparable<Reservation>{
     public int getReservationId() {
         return reservationId;
     }
-    public Member getMember() {
+    public User getMember() {
         return member;
     }
     public LibraryItem getItem () {

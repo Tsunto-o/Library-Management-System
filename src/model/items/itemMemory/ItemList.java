@@ -3,21 +3,28 @@ package model.items.itemMemory;
 import model.items.Book;
 import model.items.LibraryItem;
 import model.items.Magazine;
-import model.user.User;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 
-public class ItemList {
+public class ItemList implements Iterable<LibraryItem> {
     private List<LibraryItem> listItems = new ArrayList<>();
 
-    public List<LibraryItem> getListItems() {return this.listItems;}
+    public List<LibraryItem> getListItems() {return Collections.unmodifiableList(this.listItems);}
+
+    @Override
+    public Iterator<LibraryItem> iterator() {
+        return listItems.iterator();
+    }
 
     public void addItem(LibraryItem item){
         listItems.add(item);
@@ -26,6 +33,28 @@ public class ItemList {
     public void displayListItems(){
         for (LibraryItem i:this.listItems){
             System.out.println(i.getDisplayInfo());
+        }
+    }
+
+    public void save(String path) {
+        try {
+            FileWriter writer = new FileWriter(path);
+            for (LibraryItem item : listItems) {
+                if (item instanceof Book) {
+                    Book book = (Book) item;
+                    writer.write("BOOK," + book.getStableId() + "," + book.getTitle() + ","
+                            + book.getPublicationData().getYear() + "," + book.getPublicationData().getMonthValue() + "," + book.getPublicationData().getDayOfMonth() + ","
+                            + book.getStatus() + "," + book.getAuthor() + "," + book.getIsbn() + "," + book.getGenre() + "," + book.getNombreDePages() + "\n");
+                } else if (item instanceof Magazine) {
+                    Magazine magazine = (Magazine) item;
+                    writer.write("MAGAZINE," + magazine.getStableId() + "," + magazine.getTitle() + ","
+                            + magazine.getPublicationData().getYear() + "," + magazine.getPublicationData().getMonthValue() + "," + magazine.getPublicationData().getDayOfMonth() + ","
+                            + magazine.getStatus() + "," + magazine.getNombreDePages() + "\n");
+                }
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.print("Failed to save item catalogue.\n");
         }
     }
 

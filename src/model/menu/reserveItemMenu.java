@@ -5,7 +5,6 @@ import model.Reservation;
 import model.items.Book;
 import model.items.LibraryItem;
 import model.items.itemMemory.ItemList;
-import model.user.Member;
 import model.user.User;
 import model.user.userMemory.UsersList;
 
@@ -29,14 +28,6 @@ public class reserveItemMenu {
         System.out.print("\n_______________________________________________________________________________________\n" +
                 "\n" +
                 "--- Reserve an Item ---\n\n");
-
-        if (!(session instanceof Member)) {
-            System.out.println("Only registered members can reserve items.");
-            menu(session, listUser, listItem);
-            return;
-        }
-
-        Member member = (Member) session;
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the ID of the book you want to reserve (or 0 to cancel): ");
@@ -78,7 +69,7 @@ public class reserveItemMenu {
         }
 
         try {
-            Reservation reservation = circulationService.reserveItem(book, member);
+            Reservation reservation = circulationService.reserveItem(book, session);
             System.out.println("\nReservation confirmed for: \"" + book.getTitle() + "\"");
             System.out.println("Reservation ID: " + reservation.getReservationId() + " | Position in queue: " + reservation.getQueuePosition());
         } catch (LibraryException e) {

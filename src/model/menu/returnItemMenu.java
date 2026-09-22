@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import static app.main.circulationService;
 import static app.main.menu;
+import static app.main.ITEMS_DATA_PATH;
 
 public class returnItemMenu {
 
@@ -82,6 +83,8 @@ public class returnItemMenu {
                 System.out.println("Warning: This item was returned past its due date (" + selectedLoan.getDueDate() + ")!");
             }
             System.out.println("Success! \"" + selectedLoan.getItem().getTitle() + "\" has been returned. Thank you!");
+
+            listItem.save(ITEMS_DATA_PATH);
         } catch (LibraryException e) {
             System.out.println("Error: " + e.getMessage());
         }

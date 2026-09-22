@@ -68,7 +68,9 @@ public class searchMenu {
         switch (readInputOption(1, 8)) {
             case 1: {
                 Repository<LibraryItem> itemRepository = new Repository<>();
-                listItem.getListItems().forEach(itemRepository::add);
+                for (LibraryItem item : listItem.getListItems()) {
+                    itemRepository.add(item);
+                }
 
                 System.out.print("Enter the item ID to search: ");
                 String idQuery = scanner.nextLine().trim();

@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 import static app.main.circulationService;
 import static app.main.menu;
+import static app.main.ITEMS_DATA_PATH;
 
 public class borrowItemMenu {
 
@@ -39,16 +40,15 @@ public class borrowItemMenu {
             }
         }
 
-        Repository<Book> availableBooksRepo = new Repository<>();
         Repository<LibraryItem> allItemsRepo = new Repository<>();
-
         for (LibraryItem item : listItem.getListItems()) {
             allItemsRepo.add(item);
-            if (item instanceof Book) {
-                Book book = (Book) item;
-                if (book.isAvailable()) {
-                    availableBooksRepo.add(book);
-                }
+        }
+
+        Repository<Book> availableBooksRepo = new Repository<>();
+        for (LibraryItem item : listItem.getListItems()) {
+            if (item instanceof Book && ((Book) item).isAvailable()) {
+                availableBooksRepo.add((Book) item);
             }
         }
 
@@ -106,11 +106,12 @@ public class borrowItemMenu {
 
         try {
             LocalDate loanDate = LocalDate.now();
-            LocalDate dueDate = loanDate.plusDays(14);
 
-            Loan loan = circulationService.borrowItem(session, book, loanDate, dueDate);
+            Loan loan = circulationService.borrowItem(session, book, loanDate);
             System.out.println("\nSuccess! You borrowed: \"" + book.getTitle() + "\"");
-            System.out.println("Loan ID: " + loan.getLoanId() + " | Due Date: " + dueDate);
+            System.out.println("Loan ID: " + loan.getLoanId() + " | Due Date: " + loan.getDueDate());
+
+            listItem.save(ITEMS_DATA_PATH);
         } catch (LibraryException e) {
             System.out.println("Error: " + e.getMessage());
         }

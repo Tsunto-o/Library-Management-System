@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +18,7 @@ import java.util.Scanner;
 public class UsersList {
     private List<User> listUsers = new ArrayList<>();
 
-    public List<User> getListUsers() {return this.listUsers;}
+    public List<User> getListUsers() {return Collections.unmodifiableList(this.listUsers);}
 
     public void addUser(User user){
         listUsers.add(user);

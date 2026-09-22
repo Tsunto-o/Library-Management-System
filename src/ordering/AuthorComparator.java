@@ -12,7 +12,7 @@ public class AuthorComparator implements Comparator<LibraryItem> {
 
         int result = author1.compareToIgnoreCase(author2);
         if (result == 0) {
-            // Tie breaker déterministe (par ID)
+
             return first.compareTo(second);
         }
         return result;
