@@ -8,13 +8,21 @@ import model.user.userMemory.UsersList;
 import ordering.AuthorComparator;
 import ordering.PublicationDateComparator;
 import ordering.TitleComparator;
+import service.CirculationService;
 
-import java.sql.Date;
+import static model.menu.borrowItemMenu.borrowItemMenu;
+import static model.menu.returnItemMenu.returnItemMenu;
+import static model.menu.reserveItemMenu.reserveItemMenu;
+import static model.menu.browseAndSortMenu.browseAndSortMenu;
+import static model.menu.viewReportsMenu.viewReportsMenu;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.*;
 
 public class main {
+    public static CirculationService circulationService = new CirculationService();
+
     /**
      * Welcoming page (1st level)
      */
@@ -80,9 +88,6 @@ public class main {
         // Back to the menu after
         menu(session, listUser, listItem);
     }
-
-
-
 
     /**
      * Login page (2nd level)
@@ -266,23 +271,25 @@ public class main {
 
         switch (readInputOption(1, 6)) {
             case 1:
+                borrowItemMenu(session, listUser, listItem);
                 break;
             case 2:
+                returnItemMenu(session, listUser, listItem);
                 break;
             case 3:
+                reserveItemMenu(session, listUser, listItem);
                 break;
             case 4:
-                BrowseAndSort(session, listUser, listItem);
+                browseAndSortMenu(session, listUser, listItem);
                 break;
             case 5:
+                viewReportsMenu(session, listUser, listItem);
                 break;
             case 6:
                 welcome(listUser, listItem);
                 break;
         }
-
     }
-
 
     /// concurrence
     /// identifiable.java
